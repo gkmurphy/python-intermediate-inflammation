@@ -12,6 +12,7 @@ def test_daily_min_string():
 
     with pytest.raises(TypeError):
         error_expected = daily_min([['Hi', 'Hello'], ['Obi', 'Baby', 'Girl']])
+
 def test_daily_max_negpos():
     """Test that the max function works for a mix of pos and neg integers"""
     from inflammation.models import daily_max
@@ -72,3 +73,17 @@ def test_daily_mean_integers():
     # Need to use Numpy testing functions to compare arrays
     npt.assert_array_equal(daily_mean(test_input), test_result)
 
+
+
+@pytest.mark.parametrize(
+    "test,expected",
+    [
+        ([[0, 0, 0], [0, 0, 0], [0, 0, 0]], [0, 0, 0]),
+        ([[1, 0, 100], [2, 0, 1], [3, 0, 50]], [0.82, 0, 40.41]),
+
+    ])
+def test_dayly_std(test, expected):
+
+    from inflammation.models import daily_std_dev
+
+    npt.assert_array_almost_equal(daily_std_dev(np.array(test)), np.array(expected), decimal=2)
